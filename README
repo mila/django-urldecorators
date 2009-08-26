@@ -1,0 +1,26 @@
+Django-urldecorators is a reusable Django application which allows apply 
+view decorators and middleware components depending on requested url.
+
+
+Installation and usage:
+
+ 1) Run python setup.py install or add urldecorators directory 
+    on your PYTHONPATH 
+
+ 2) In urls.py file replace 'from django.conf.urls.defaults import *'
+ 	by 'from urldecorators.defaults import *'
+ 	
+ 3) Pass list of decorators or middleware_classes to as argument
+    to url function 
+
+
+Example urls.py file:
+
+	from urldecorators.defaults import *
+	
+	urlpatterns = patterns('',                       
+	    url(r'^private/$', include('example.private.urls'), 
+	        decorators=['django.contrib.auth.decorators.login_required']),
+	    url(r'^articles/$', include('example.articles.urls'),
+	        middleware_classes=['django.middleware.cache.CacheMiddleware']),
+	)
