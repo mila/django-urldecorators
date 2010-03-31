@@ -8,7 +8,8 @@ setup(
     author='Miloslav Pojman',
     author_email='miloslav.pojman@gmail.com',
     url='http://github.com/mila/django-urldecorators/tree/master',
-    packages=find_packages(),
+    packages=find_packages('src'),
+    package_dir = {'': 'src'},
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
