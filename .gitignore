@@ -3,3 +3,10 @@
 *.egg-info
 build
 dist
+test/.installed.cfg
+test/bin
+test/develop-eggs
+test/downloads
+test/eggs
+test/parts
+test/testproject/test.db
