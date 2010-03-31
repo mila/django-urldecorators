@@ -1,8 +1,6 @@
 
 from django.core.exceptions import ImproperlyConfigured
-from django.core.urlresolvers import get_mod_func
 from django.utils.decorators import decorator_from_middleware
-from django.utils.importlib import import_module
 
 def import_if_string(path):    
     if not isinstance(path, basestring):
@@ -13,7 +11,7 @@ def import_if_string(path):
         raise ImproperlyConfigured, '%s isn\'t a valid module' % path
     mod_name, obj_name = path[:dot], path[dot+1:]
     try:
-        mod = import_module(mod_name)
+        mod = __import__(mod_name, {}, {}, ['']) 
     except ImportError, e:
         raise ImproperlyConfigured, 'Error importing module %s: "%s"' % (mod_name, e)
     try:
