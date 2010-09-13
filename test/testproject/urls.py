@@ -3,7 +3,7 @@ from urldecorators.defaults import *
 urlpatterns = patterns('',                       
     url(r'^private/$', include('testproject.private.urls'), 
         decorators=['django.contrib.auth.decorators.login_required']),
-    url(r'^articles/$', include('testproject.articles.urls'),
+    url(r'^cached/$', include('testproject.cached.urls'),
         middleware_classes=['django.middleware.cache.CacheMiddleware']),
 )
 
