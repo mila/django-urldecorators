@@ -5,13 +5,12 @@ view decorators and middleware components depending on requested url.
 Installation and usage:
 
  1) Run python setup.py install or add urldecorators directory 
-    on your PYTHONPATH 
+    to your PYTHONPATH 
 
- 2) In urls.py file replace 'from django.conf.urls.defaults import *'
- 	by 'from urldecorators.defaults import *'
+ 2) In urls.py file replace `from django.conf.urls.defaults import *`
+ 	by `from urldecorators.defaults import *`
  	
- 3) Pass list of decorators or middleware_classes to as argument
-    to url function 
+ 3) Pass list of decorators or middleware_classes as argument to url function
 
 
 Example urls.py file:
@@ -24,3 +23,20 @@ Example urls.py file:
 	    url(r'^articles/$', include('example.articles.urls'),
 	        middleware_classes=['django.middleware.cache.CacheMiddleware']),
 	)
+	
+Testing:
+
+	cd test
+	# Setup enviroment using zc.buildout 
+	python bootstrap.py
+	python bin/buildout-script.py
+	# Run tests using miscellaneous Django versions
+	bin/test-django-1.0
+	bin/test-django-1.1
+	bin/test-django-1.2
+	# Create database
+	bin/manage-django-1.0.exe syncdb
+	# Run server using miscellaneous Django versions
+	bin/manage-django-1.0 runserver
+	bin/manage-django-1.1 runserver
+	bin/manage-django-1.2 runserver
