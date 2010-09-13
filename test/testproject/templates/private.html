@@ -1,8 +1,20 @@
 <html>
 <head>
-	<title>Private</title>
+	<title>Private page - django-urldecorators testproject</title>
 </head>
 <body>
-	<p>You are logged in if  you see this page.</p>
+	<h1>Private page</h1>
+	<p>You are logged in if you see this page. <a href="{% url logout %}">Logout</a></p>
+	<p>Decorator `django.contrib.auth.decorators.login_required` is applied.</p>
+	<pre>
+from urldecorators.defaults import *
+		
+urlpatterns = patterns('',
+    url(r'^private/$', include('testproject.private.urls'), 
+        decorators=['django.contrib.auth.decorators.login_required']),
+    ...
+)
+	</pre>
+	<p><a href="{% url home %}">Home</a></p>
 </body>
 </html>

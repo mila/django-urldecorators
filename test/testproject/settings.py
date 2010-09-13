@@ -14,8 +14,13 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.sessions',
+    'django.contrib.contenttypes', # Required for auth
+    'django.contrib.admin',        # Required by django.contrib.auth tests
+    'django.contrib.sites',        # Required by django.contrib.auth tests 
     
-    'urldecorators',
+    'urldecorators',               # Optional, only for Django test runner 
 )
+
+SITE_ID = 1
 
 LOGIN_URL = '/login/'

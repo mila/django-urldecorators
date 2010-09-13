@@ -8,8 +8,8 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('',
-     ("^$", 'django.views.generic.simple.direct_to_template',  
-            {'template': 'index.html'}),
-    (r'^login/$', 'django.contrib.auth.views.login', 
-            {'template_name': 'login.html'}),
+    url("^$", 'django.views.generic.simple.direct_to_template',  
+            {'template': 'index.html'}, name="home"),
+    url(r'^login/$', 'django.contrib.auth.views.login', name="login"),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', name="logout"),
 )   

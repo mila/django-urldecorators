@@ -1,8 +1,9 @@
 <html>
 <head>
-	<title>Login</title>
+	<title>Login - django-urldecorators testproject</title>
 </head>
 <body>
+	<h1>Login</h1>
 	{% if form.errors %}
 	<p>Your username and password didn't match. Please try again.</p>
 	{% endif %}
@@ -17,11 +18,15 @@
 		<td>{{ form.password.label_tag }}</td>
 		<td>{{ form.password }}</td>
 	</tr>
-	</table>
-	
-	<input type="submit" value="login" />
-	<input type="hidden" name="next" value="{{ next }}" />
-	{% csrf_token %} 
+	<tr>
+		<td colspan="2">
+			<input type="submit" value="Login" />
+			<input type="hidden" name="next" value="{{ next }}" />
+			{% csrf_token %}
+		</td>
+	</tr>
+	</table> 
 	</form>
+	<p><a href="{% url home %}">Home</a></p>
 </body>
 </html>

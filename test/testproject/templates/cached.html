@@ -1,0 +1,20 @@
+<html>
+<head>
+	<title>Cached page - django-urldecorators testproject</title>
+</head>
+<body>
+	<h1>Cached page</h1>
+	<p>Time: <b>{% now "jS F Y H:i:s" %}</b></p>
+	<p>Middleware `django.middleware.cache.CacheMiddleware` is applied.</p>
+	<pre>
+from urldecorators.defaults import *
+		
+urlpatterns = patterns('',
+    ...
+    url(r'^cached/$', include('testproject.cached.urls'),
+        middleware_classes=['django.middleware.cache.CacheMiddleware']),
+)
+	</pre>
+	<p><a href="{% url home %}">Home</a></p>
+</body>
+</html>
