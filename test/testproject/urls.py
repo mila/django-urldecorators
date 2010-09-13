@@ -12,17 +12,4 @@ urlpatterns += patterns('',
             {'template': 'index.html'}),
     (r'^login/$', 'django.contrib.auth.views.login', 
             {'template_name': 'login.html'}),
-)
-
-from django.contrib import admin
-admin.autodiscover()
-
-if hasattr(admin.site, "urls"):
-    urlpatterns += patterns('',
-        (r'^admin/', include(admin.site.urls)),
-    )
-else:
-    urlpatterns += patterns('',
-        (r'^admin/(.*)', admin.site.root),
-    )
-    
+)   
