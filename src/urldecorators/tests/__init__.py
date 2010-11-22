@@ -153,6 +153,20 @@ class ResolveTestCase(TestCase):
                 url(r'^$', '', decorators=["urldecorators.tests.urls.decorator1"]),
             )
         self.assertRaises(ImproperlyConfigured, func)
+        
+    def test_unresolvable_decorator_name_raises(self):
+        def func():
+            urlpatterns = patterns('urldecorators.tests.views',    
+                url(r'^$', 'sample_view', decorators=["does.not.exists"]),
+            )
+        self.assertRaises(ImproperlyConfigured, func)
+        
+    def test_unresolvable_middleware_name_raises(self):
+        def func():
+            urlpatterns = patterns('urldecorators.tests.views',    
+                url(r'^$', 'sample_view', middleware_classes=["does.not.exists"]),
+            )
+        self.assertRaises(ImproperlyConfigured, func)
 
     if include_on_an_iterable_of_patterns:
         def test_decorators_and_middleware_in_resolver_with_attr_as_urlconf(self):            
