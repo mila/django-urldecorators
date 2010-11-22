@@ -1,7 +1,8 @@
 
 from django.test import TestCase
+from django.core.exceptions import ImproperlyConfigured
+from urldecorators.defaults import patterns, url
 from urldecorators.tests.info import include_on_an_iterable_of_patterns, namespacing_named_urls
-
 
 class ResolveTestCase(TestCase):
     
@@ -145,7 +146,14 @@ class ResolveTestCase(TestCase):
         r = self.client.get("/string-middleware/")
         self.assertEqual((r.args, r.kwargs), 
                          (("middleware 1 applied", "middleware 2 applied"), {}))
-    
+                         
+    def test_empty_string_as_view_name_raises(self):
+        def func():
+            urlpatterns = patterns('',    
+                url(r'^$', '', decorators=["urldecorators.tests.urls.decorator1"]),
+            )
+        self.assertRaises(ImproperlyConfigured, func)
+
     if include_on_an_iterable_of_patterns:
         def test_decorators_and_middleware_in_resolver_with_attr_as_urlconf(self):            
             r = self.client.get("/inc-attr/decorators/")

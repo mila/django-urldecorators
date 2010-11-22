@@ -49,6 +49,7 @@ def _url(regex, view, kwargs=None, name=None, prefix='', decorators=None,
     else:
         if isinstance(view, basestring):
             if not view:
+                from django.core.exceptions import ImproperlyConfigured
                 raise ImproperlyConfigured('Empty URL pattern view name not permitted (for pattern %r)' % regex)
             if prefix:
                 view = prefix + '.' + view
