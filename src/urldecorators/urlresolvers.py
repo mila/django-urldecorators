@@ -16,12 +16,16 @@ class DecoratorMixin(object):
         match = super(DecoratorMixin, self).resolve(path)
         if not match:
             return match
-        callback, args, kwargs = match
-        callback = self.apply_decorators(callback)
-        return callback, args, kwargs
-        
+        try:
+            # In Django 1.3 match is an instance of ResolverMatch class
+            match.func = self.apply_decorators(match.func)
+        except AttributeError:
+            # Before Django 1.3 match is a tuple 
+            match = self.apply_decorators(match[0]), match[1], match[2]
+        return match
+    
     def apply_decorators(self, callback):
-        if not isinstance(callback, types.FunctionType):        
+        if not isinstance(callback, types.FunctionType):
             callback = curry(callback) # Some decorators do not work with class views
         for decorator in self.decorators:
             callback = decorator(callback)
