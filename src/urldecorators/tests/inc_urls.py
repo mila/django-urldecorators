@@ -2,6 +2,8 @@
 from urldecorators.defaults import *
 from urldecorators.tests.urls import decorator1, decorator2, Middleware1, Middleware2
 
+from urldecorators.tests.views import DjangoClassView
+
 
 urlpatterns = patterns('urldecorators.tests.views',
     url(r'^$', 'sample_view'),
@@ -24,5 +26,10 @@ urlpatterns = patterns('urldecorators.tests.views',
     url(r'^middleware/(?P<inc_arg1>\d+)/(?P<inc_arg2>\d+)/', 
         include("urldecorators.tests.inc_inc_urls"), 
         middleware_classes=[Middleware1, Middleware2]
-    ),    
+    ),
 )
+
+if DjangoClassView:
+    urlpatterns += patterns('',
+        url(r'^django-class/$', DjangoClassView.as_view()),
+    )
