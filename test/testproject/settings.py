@@ -1,9 +1,20 @@
+
 import os
 
 DEBUG = True
 
-DATABASE_ENGINE = 'sqlite3'
+
+# Django 1.2 up
+DATABASE_ENGINE = 'django.db.backends.sqlite3'
 DATABASE_NAME = os.path.join(os.path.dirname(__file__), 'test.db')
+
+# Django 1.1 and 1.0
+DATABASES = {
+    'default': {
+        'ENGINE': DATABASE_ENGINE,
+        'NAME': DATABASE_NAME
+    }
+}
 
 ROOT_URLCONF = 'testproject.urls'
 
