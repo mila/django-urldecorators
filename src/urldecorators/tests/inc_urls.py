@@ -44,6 +44,7 @@ urlpatterns += patterns('urldecorators.tests.views',
 )
 
 if views.generic_view:
-    urlpatterns += patterns('',
-        url(r'^django-class/$', views.generic_view),
+    urlpatterns += patterns('urldecorators.tests.views',
+        url(r'^generic/$', views.generic_view),
+        url(r'^generic-str/$', 'generic_view'),
     )

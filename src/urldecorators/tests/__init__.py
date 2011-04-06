@@ -218,6 +218,7 @@ class ResolverTestCase(TestCase):
         ))
         
     if namespaced_urls:
+        
         def test_decorators_work_with_namespaced_urls(self):
             r = self.client.get("/namespace/decorators/")
             self.assertEqual((r.args, r.kwargs), (
@@ -268,6 +269,7 @@ class ConfigurationTestCase(TestCase):
         self.assertRaises(ImproperlyConfigured, func)
     
     if attr_urls:
+        
         def decorators_can_be_used_in_iterable_urlpatterns(self):
             r = self.client.get("/attr/inc/decorators/")
             self.assertEqual((r.args, r.kwargs), (
@@ -297,86 +299,100 @@ class ViewTypesTestCase(TestCase):
     
     urls = "urldecorators.tests.urls"
     
-    def test_func_view_work_with_decorator(self):
+    def test_decorators_work_with_func_view(self):
         r = self.client.get("/decorators/inc/func/")
         self.assertEqual((r.args, r.kwargs), (
             ("decorator 1 applied", "decorator 2 applied"), {}
         ))
     
-    def test_func_view_work_with_middleware(self):
+    def test_middleware_works_with_func_view(self):
         r = self.client.get("/middleware/inc/func/")
         self.assertEqual((r.args, r.kwargs), (
             ("middleware 1 applied", "middleware 2 applied"), {}
         ))
     
-    def test_class_view_work_with_decorator(self):
+    def test_decorators_work_with_class_view(self):
         r = self.client.get("/decorators/inc/class/")
         self.assertEqual((r.args, r.kwargs), (
             ("decorator 1 applied", "decorator 2 applied"), {}
         ))
     
-    def test_class_view_work_with_middleware(self):
+    def test_middleware_works_with_class_view(self):
         r = self.client.get("/middleware/inc/class/")
         self.assertEqual((r.args, r.kwargs), (
             ("middleware 1 applied", "middleware 2 applied"), {}
         ))
         
-    def test_method_view_work_with_decorator(self):
+    def test_decorators_work_with_method_view(self):
         r = self.client.get("/decorators/inc/method/")
         self.assertEqual((r.args, r.kwargs), (
             ("decorator 1 applied", "decorator 2 applied"), {}
         ))
     
-    def test_method_view_work_with_middleware(self):
+    def test_middleware_works_with_method_view(self):
         r = self.client.get("/middleware/inc/method/")
         self.assertEqual((r.args, r.kwargs), (
             ("middleware 1 applied", "middleware 2 applied"), {}
         ))
         
-    def test_func_view_declared_as_str_work_with_decorator(self):
+    def test_decorators_work_with_func_view_declared_as_str(self):
         r = self.client.get("/decorators/inc/func-str/")
         self.assertEqual((r.args, r.kwargs), (
             ("decorator 1 applied", "decorator 2 applied"), {}
         ))
     
-    def test_func_view_declared_as_str_work_with_middleware(self):
+    def test_middleware_works_with_func_view_declared_as_str(self):
         r = self.client.get("/middleware/inc/func-str/")
         self.assertEqual((r.args, r.kwargs), (
             ("middleware 1 applied", "middleware 2 applied"), {}
         ))
     
-        
-    def test_class_view_declared_as_str_work_with_decorator(self):
+    def test_class_view_declared_as_str_work_with_decorator_declared_as_str(self):
         r = self.client.get("/decorators/inc/class-str/")
         self.assertEqual((r.args, r.kwargs), (
             ("decorator 1 applied", "decorator 2 applied"), {}
         ))
     
-    def test_class_view_declared_as_str_work_with_middleware(self):
+    def test_middleware_works_with_class_view_declared_as_str(self):
         r = self.client.get("/middleware/inc/class-str/")
         self.assertEqual((r.args, r.kwargs), (
             ("middleware 1 applied", "middleware 2 applied"), {}
         ))
-        
-    def test_method_view_declared_as_str_work_with_decorator(self):
+    
+    def test_decorators_work_with_method_view_declared_as_str(self):
         r = self.client.get("/decorators/inc/method-str/")
         self.assertEqual((r.args, r.kwargs), (
             ("decorator 1 applied", "decorator 2 applied"), {}
         ))
     
-    def test_method_view_declared_as_str_work_with_middleware(self):
+    def test_middleware_works_with_method_view_declared_as_str(self):
         r = self.client.get("/middleware/inc/method-str/")
         self.assertEqual((r.args, r.kwargs), (
             ("middleware 1 applied", "middleware 2 applied"), {}
         ))
     
     if generic_view:
-        def test_resolver_with_django_class_view(self):
-            r = self.client.get("/decorators/inc/django-class/")
+        
+        def test_decorators_work_with_generic_view(self):
+            r = self.client.get("/decorators/inc/generic/")
             self.assertEqual((r.args, r.kwargs),(
                 ("decorator 1 applied", "decorator 2 applied"), {}
             ))
-            r = self.client.get("/middleware/inc/django-class/")
+        
+        def test_middleware_works_with_generic_view(self):
+            r = self.client.get("/middleware/inc/generic/")
+            self.assertEqual((r.args, r.kwargs), (
+                ("middleware 1 applied", "middleware 2 applied"), {}
+            ))
+            
+        def test_decorators_work_with_generic_view_declared_as_str(self):
+            r = self.client.get("/decorators/inc/generic-str/")
+            self.assertEqual((r.args, r.kwargs),(
+                ("decorator 1 applied", "decorator 2 applied"), {}
+            ))
+        
+        def test_middleware_works_with_generic_view_declared_as_str(self):
+            r = self.client.get("/middleware/inc/generic-str/")
             self.assertEqual((r.args, r.kwargs), (
                 ("middleware 1 applied", "middleware 2 applied"), {}
             ))
