@@ -1,101 +1,157 @@
 
 from urldecorators.defaults import *
-from urldecorators.tests.info import (include_on_an_iterable_of_patterns, 
-                                      namespacing_named_urls)
+
 
 def decorator1(func):
     def wrapped(request, *args, **kwargs):
         args += ("decorator 1 applied",)
-        return func(request, *args, **kwargs)    
+        return func(request, *args, **kwargs)
     return wrapped
 
 def decorator2(func):
     def wrapped(request, *args, **kwargs):
         args += ("decorator 2 applied",)
-        return func(request, *args, **kwargs)    
+        return func(request, *args, **kwargs)
     return wrapped
 
-class Middleware1(object):    
+class Middleware1(object):
     def process_view(self, request, func, args, kwargs):
         args += ("middleware 1 applied",)
         return func(request, *args, **kwargs)
 
-class Middleware2(object):    
+class Middleware2(object):
     def process_view(self, request, func, args, kwargs):
         args += ("middleware 2 applied",)
-        return func(request, *args, **kwargs)    
+        return func(request, *args, **kwargs)
 
 
-attr_urls = patterns('urldecorators.tests.views',    
-    url(r'^$', 'sample_view'),
-    url(r'^decorators/$', 'sample_view', 
-        decorators=[decorator1, decorator2]),    
-    url(r'^middleware/$', 'sample_view', 
-        middleware_classes=[Middleware1, Middleware2]),
-) 
-
+# Basic
 urlpatterns = patterns('urldecorators.tests.views',
-    # Test defaults 
+    # Url
     url(r'^$', 'sample_view'),
+    # Url with args
     url(r'^args/(\d+)/(\d+)/$', 'sample_view'),
-    url(r'^kwargs/(?P<arg1>\d+)/(?P<arg2>\d+)/$', 'sample_view'),        
-    url(r'^inc/(?P<arg1>\d+)/(?P<arg2>\d+)/', 
-        include("urldecorators.tests.inc_urls")),    
-    # Test decorators
-    url(r'^decorators/$', 'sample_view', decorators=[decorator1, decorator2]),
-    url(r'^decorators/(?P<arg1>\d+)/(?P<arg2>\d+)/', 
+    # Url with kwargs
+    url(r'^kwargs/(?P<arg1>\d+)/(?P<arg2>\d+)/$', 'sample_view'),
+    # Include
+    url(r'^inc/', include("urldecorators.tests.inc_urls")),
+    # Include with kwargs
+    url(r'^kwargs/(?P<arg1>\d+)/(?P<arg2>\d+)/inc/',
+        include("urldecorators.tests.inc_urls")),
+)
+
+# Decorators
+urlpatterns += patterns('urldecorators.tests.views',
+    # Url
+    url(r'^decorators/$', 'sample_view', 
+        decorators=[decorator1, decorator2]
+    ),
+    # Url with args
+    url(r'^decorators/args/(\d+)/(\d+)/$', 'sample_view',
+        decorators=[decorator1, decorator2]
+    ),
+    # Url with kwargs
+    url(r'^decorators/kwargs/(?P<arg1>\d+)/(?P<arg2>\d+)/$', 'sample_view',
+        decorators=[decorator1, decorator2]
+    ),
+    # Include
+    url(r'^decorators/inc/',
         include("urldecorators.tests.inc_urls"), 
         decorators=[decorator1, decorator2]
     ),
-    # Test middleware    
-    url(r'^middleware/$', 'sample_view', 
+    # Include with kwargs
+    url(r'^decorators/kwargs/(?P<arg1>\d+)/(?P<arg2>\d+)/inc/',
+        include("urldecorators.tests.inc_urls"), 
+        decorators=[decorator1, decorator2]
+    ),
+)
+
+# Middleware
+urlpatterns += patterns('urldecorators.tests.views',
+    # Url
+    url(r'^middleware/$', 'sample_view',
         middleware_classes=[Middleware1, Middleware2]
     ),
-    url(r'^middleware/(?P<arg1>\d+)/(?P<arg2>\d+)/', 
+    # Url with args
+    url(r'^middleware/args/(\d+)/(\d+)/$', 'sample_view',
+        middleware_classes=[Middleware1, Middleware2]
+    ),
+    # Url with kwargs
+    url(r'^middleware/kwargs/(?P<arg1>\d+)/(?P<arg2>\d+)/$', 'sample_view',
+        middleware_classes=[Middleware1, Middleware2]
+    ),
+    # Include
+    url(r'^middleware/inc/', 
+        include("urldecorators.tests.inc_urls"),
+        middleware_classes=[Middleware1, Middleware2]),
+    # Include with kwargs
+    url(r'^middleware/kwargs/(?P<arg1>\d+)/(?P<arg2>\d+)/inc/', 
         include("urldecorators.tests.inc_urls"), 
         middleware_classes=[Middleware1, Middleware2]),
-    # Test order of decorators and middleware  
+)
+
+# Misc
+urlpatterns += patterns('urldecorators.tests.views',
+    # Url with middleware and decorators combination  
     url(r'^middleware-and-decorators/$', 'sample_view', 
         middleware_classes=[Middleware1, Middleware2], 
         decorators=[decorator1, decorator2]
     ),
-    url(r'^middleware-and-decorators/inc/', 
+    # Include with middleware and decorators combination
+    url(r'^middleware-and-decorators/inc/',
         include("urldecorators.tests.inc_urls"), 
         middleware_classes=[Middleware1, Middleware2], 
         decorators=[decorator1, decorator2]
     ),
-    # Test decorators and middleware defined as strings
-    url(r'^string-decorators/$', 'sample_view', 
+    # Decorators declared as a string
+    url(r'^string/decorators/$', 'sample_view', 
         decorators=["urldecorators.tests.urls.decorator1", 
                     u"urldecorators.tests.urls.decorator2"]
     ),
-    url(r'^string-middleware/$', 'sample_view', 
+    # Middleware declared as a string
+    url(r'^string/middleware/$', 'sample_view', 
         middleware_classes=["urldecorators.tests.urls.Middleware1", 
                             u"urldecorators.tests.urls.Middleware2"]
     ),
 )
 
-if include_on_an_iterable_of_patterns:
+# Include iterable in urlpatterns: http://code.djangoproject.com/changeset/9728
+try:
+    url('', include([])).url_patterns
+except TypeError:
+    attr_urls = None
+else:
+    attr_urls = patterns('urldecorators.tests.views',
+        url(r'^$', 'sample_view'),
+        url(r'^decorators/$', 'sample_view', 
+            decorators=[decorator1, decorator2]),
+        url(r'^middleware/$', 'sample_view', 
+            middleware_classes=[Middleware1, Middleware2]),
+    )
     urlpatterns += patterns('urldecorators.tests.views',
         # Test urls as property instead of a module
-        url(r'^inc-attr/', include(attr_urls)),
-        url(r'^inc-attr-decorators/', include(attr_urls), 
+        url(r'^attr/inc/', include(attr_urls)),
+        url(r'^attr/decorators/', include(attr_urls), 
             decorators=[decorator1, decorator2]
         ),
-        url(r'^inc-attr-middleware/', include(attr_urls), 
+        url(r'^attr/middleware/', include(attr_urls), 
             middleware_classes=[Middleware1, Middleware2]
         ),
     )
 
-if namespacing_named_urls:
-    urlpatterns += patterns('urldecorators.tests.views',
-        # Test app namespaces                
-        url(r'^namespace-decorators/', 
+# Namespaced urls: http://code.djangoproject.com/changeset/11250
+try:
+    namespaced_urls = patterns('urldecorators.tests.views',
+        url(r'^namespace/decorators/', 
             include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'), 
             decorators=[decorator1, decorator2]
         ),
-        url(r'^namespace-middleware/', 
+        url(r'^namespace/middleware/', 
             include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'), 
             middleware_classes=[Middleware1, Middleware2]
-        ),        
+        ),
     )
+except TypeError:
+    namespaced_urls = None
+else:
+    urlpatterns += namespaced_urls
