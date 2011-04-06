@@ -1,7 +1,7 @@
 
 import types
 from django.core import urlresolvers as django_urlresolvers
-from django.utils.functional import curry
+from urldecorators.helpers import func_from_callable
 
 
 __all__ = ["RegexURLResolver", "RegexURLPattern"]
@@ -31,8 +31,8 @@ class DecoratorMixin(object):
     def apply_decorators(self, callback):
         if not isinstance(callback, types.FunctionType):
             # Lots of decorators tries to update_wrapper which can fail when view
-            # is a callable class or class method. Give them standard function.
-            callback = curry(callback) 
+            # is a callable class or class method. So give them standard function.
+            callback = func_from_callable(callback)
         for decorator in self.decorators:
             callback = decorator(callback)
         return callback
