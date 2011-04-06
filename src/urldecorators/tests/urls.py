@@ -1,18 +1,22 @@
 
+from django.utils.functional import update_wrapper
+
 from urldecorators.defaults import *
 
 
 def decorator1(func):
-    def wrapped(request, *args, **kwargs):
+    def wrapper(request, *args, **kwargs):
         args += ("decorator 1 applied",)
         return func(request, *args, **kwargs)
-    return wrapped
+    update_wrapper(wrapper, func)
+    return wrapper
 
 def decorator2(func):
-    def wrapped(request, *args, **kwargs):
+    def wrapper(request, *args, **kwargs):
         args += ("decorator 2 applied",)
         return func(request, *args, **kwargs)
-    return wrapped
+    update_wrapper(wrapper, func)
+    return wrapper
 
 class Middleware1(object):
     def process_view(self, request, func, args, kwargs):
