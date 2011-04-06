@@ -1,13 +1,14 @@
+
 from setuptools import setup, find_packages
 
-VERSION = (0, 2)
+VERSION = (0, 3)
 VERSION_STR = ".".join(map(str, VERSION))
  
 setup(
     name='django-urldecorators',
     version=VERSION_STR,
     description='Django-urldecorators is a reusable Django application which allows apply '
-                'view decorators and middleware components depending on requested url.',    
+                'view decorators and middleware components depending on requested url.',
     author='Miloslav Pojman',
     author_email='miloslav.pojman@gmail.com',
     url='http://github.com/mila/django-urldecorators/tree/master',
