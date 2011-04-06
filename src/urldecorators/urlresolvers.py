@@ -3,9 +3,13 @@ import types
 from django.core import urlresolvers as django_urlresolvers
 from django.utils.functional import curry
 
+
+__all__ = ["RegexURLResolver", "RegexURLPattern"]
+
+
 class DecoratorMixin(object):
     """
-    Mixin class to return decorated views from RegexURLPattern/RegexURLResolver
+    A mixin which adds support for decorating all resolved views
     """
     
     def __init__(self, *args, **kwargs):
@@ -20,21 +24,28 @@ class DecoratorMixin(object):
             # In Django 1.3 match is an instance of ResolverMatch class
             match.func = self.apply_decorators(match.func)
         except AttributeError:
-            # Before Django 1.3 match is a tuple 
+            # Before Django 1.3 match was a tuple 
             match = self.apply_decorators(match[0]), match[1], match[2]
         return match
     
     def apply_decorators(self, callback):
         if not isinstance(callback, types.FunctionType):
-            callback = curry(callback) # Some decorators do not work with class views
+            # Lots of decorators tries to update_wrapper which can fail when view
+            # is a callable class or class method. Give them standard function.
+            callback = curry(callback) 
         for decorator in self.decorators:
             callback = decorator(callback)
         return callback
-    
+
+
 class RegexURLPattern(DecoratorMixin, django_urlresolvers.RegexURLPattern):
-    pass
+    """
+    Django RegexURLPattern with support for decorating resolved views
+    """
+
 
 class RegexURLResolver(DecoratorMixin, django_urlresolvers.RegexURLResolver):
-    pass
-    
+    """
+    Django RegexURLResolver with support for decorating resolved views
+    """
 
