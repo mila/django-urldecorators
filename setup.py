@@ -23,8 +23,7 @@ setup(
     author='Miloslav Pojman',
     author_email='miloslav.pojman@gmail.com',
     url=url,
-    packages=find_packages('src'),
-    package_dir = {'': 'src'},
+    packages=find_packages(),
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
