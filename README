@@ -1,6 +1,8 @@
 Django-urldecorators is a reusable Django application which allows apply
 view decorators and middleware components based on requested url.
 
+The application is tested with Django version from 1.0 to 1.4.
+
 
 Installation and usage:
 
