@@ -3,7 +3,7 @@ import codecs
 from setuptools import setup, find_packages
 
 
-VERSION = (0, 4)
+VERSION = (0, 5)
 VERSION_STR = ".".join(map(str, VERSION))
 
 
