@@ -9,8 +9,8 @@ Installation and usage:
     1) Run `python setup.py install` or add urldecorators directory to
        your PYTHONPATH (or use pip or easy_install).
 
-    2) In urls.py file replace `from django.conf.urls.defaults import *`
-       by `from urldecorators.defaults import *`
+    2) In urls.py file replace `from django.conf.urls import *`
+       by `from urldecorators import *`
 
     3) Pass list of decorators and/or middleware_classes as argument
        to url function.
@@ -18,7 +18,7 @@ Installation and usage:
 
 Example urls.py file:
 
-    from urldecorators.defaults import *
+    from urldecorators import *
 
     urlpatterns = patterns('',
         url(r'^private/$', include('example.private.urls'),

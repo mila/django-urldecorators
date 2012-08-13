@@ -1,7 +1,7 @@
 
 from django.utils.functional import update_wrapper
 
-from urldecorators.defaults import *
+from urldecorators import *
 
 
 def decorator1(func):
@@ -47,7 +47,7 @@ urlpatterns = patterns('urldecorators.tests.views',
 # Decorators
 urlpatterns += patterns('urldecorators.tests.views',
     # Url
-    url(r'^decorators/$', 'sample_view', 
+    url(r'^decorators/$', 'sample_view',
         decorators=[decorator1, decorator2]
     ),
     # Url with args
@@ -60,12 +60,12 @@ urlpatterns += patterns('urldecorators.tests.views',
     ),
     # Include
     url(r'^decorators/inc/',
-        include("urldecorators.tests.inc_urls"), 
+        include("urldecorators.tests.inc_urls"),
         decorators=[decorator1, decorator2]
     ),
     # Include with kwargs
     url(r'^decorators/kwargs/(?P<arg1>\d+)/(?P<arg2>\d+)/inc/',
-        include("urldecorators.tests.inc_urls"), 
+        include("urldecorators.tests.inc_urls"),
         decorators=[decorator1, decorator2]
     ),
 )
@@ -85,36 +85,36 @@ urlpatterns += patterns('urldecorators.tests.views',
         middleware_classes=[Middleware1, Middleware2]
     ),
     # Include
-    url(r'^middleware/inc/', 
+    url(r'^middleware/inc/',
         include("urldecorators.tests.inc_urls"),
         middleware_classes=[Middleware1, Middleware2]),
     # Include with kwargs
-    url(r'^middleware/kwargs/(?P<arg1>\d+)/(?P<arg2>\d+)/inc/', 
-        include("urldecorators.tests.inc_urls"), 
+    url(r'^middleware/kwargs/(?P<arg1>\d+)/(?P<arg2>\d+)/inc/',
+        include("urldecorators.tests.inc_urls"),
         middleware_classes=[Middleware1, Middleware2]),
 )
 
 # Misc
 urlpatterns += patterns('urldecorators.tests.views',
-    # Url with middleware and decorators combination  
-    url(r'^middleware-and-decorators/$', 'sample_view', 
-        middleware_classes=[Middleware1, Middleware2], 
+    # Url with middleware and decorators combination
+    url(r'^middleware-and-decorators/$', 'sample_view',
+        middleware_classes=[Middleware1, Middleware2],
         decorators=[decorator1, decorator2]
     ),
     # Include with middleware and decorators combination
     url(r'^middleware-and-decorators/inc/',
-        include("urldecorators.tests.inc_urls"), 
-        middleware_classes=[Middleware1, Middleware2], 
+        include("urldecorators.tests.inc_urls"),
+        middleware_classes=[Middleware1, Middleware2],
         decorators=[decorator1, decorator2]
     ),
     # Decorators declared as a string
-    url(r'^string/decorators/$', 'sample_view', 
-        decorators=["urldecorators.tests.urls.decorator1", 
+    url(r'^string/decorators/$', 'sample_view',
+        decorators=["urldecorators.tests.urls.decorator1",
                     u"urldecorators.tests.urls.decorator2"]
     ),
     # Middleware declared as a string
-    url(r'^string/middleware/$', 'sample_view', 
-        middleware_classes=["urldecorators.tests.urls.Middleware1", 
+    url(r'^string/middleware/$', 'sample_view',
+        middleware_classes=["urldecorators.tests.urls.Middleware1",
                             u"urldecorators.tests.urls.Middleware2"]
     ),
 )
@@ -127,18 +127,18 @@ except TypeError:
 else:
     attr_urls = patterns('urldecorators.tests.views',
         url(r'^$', 'sample_view'),
-        url(r'^decorators/$', 'sample_view', 
+        url(r'^decorators/$', 'sample_view',
             decorators=[decorator1, decorator2]),
-        url(r'^middleware/$', 'sample_view', 
+        url(r'^middleware/$', 'sample_view',
             middleware_classes=[Middleware1, Middleware2]),
     )
     urlpatterns += patterns('urldecorators.tests.views',
         # Test urls as property instead of a module
         url(r'^attr/inc/', include(attr_urls)),
-        url(r'^attr/decorators/', include(attr_urls), 
+        url(r'^attr/decorators/', include(attr_urls),
             decorators=[decorator1, decorator2]
         ),
-        url(r'^attr/middleware/', include(attr_urls), 
+        url(r'^attr/middleware/', include(attr_urls),
             middleware_classes=[Middleware1, Middleware2]
         ),
     )
@@ -146,12 +146,12 @@ else:
 # Namespaced urls: http://code.djangoproject.com/changeset/11250
 try:
     namespaced_urls = patterns('urldecorators.tests.views',
-        url(r'^namespace/decorators/', 
-            include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'), 
+        url(r'^namespace/decorators/',
+            include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'),
             decorators=[decorator1, decorator2]
         ),
-        url(r'^namespace/middleware/', 
-            include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'), 
+        url(r'^namespace/middleware/',
+            include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'),
             middleware_classes=[Middleware1, Middleware2]
         ),
     )

@@ -1,5 +1,5 @@
 
-from urldecorators.defaults import *
+from urldecorators import *
 
 
 urlpatterns = patterns('',

@@ -1,5 +1,5 @@
 
-from urldecorators.defaults import *
+from urldecorators.defaults import * # Legacy import location
 from urldecorators.tests.urls import decorator1, decorator2, Middleware1, Middleware2
 
 from urldecorators.tests import views
@@ -15,21 +15,21 @@ urlpatterns = patterns('urldecorators.tests.views',
     # Include
     url(r'^inc/', include("urldecorators.tests.inc_inc_urls")),
     # Url with decorators
-    url(r'^decorators/$', 'sample_view', 
+    url(r'^decorators/$', 'sample_view',
         decorators=[decorator1, decorator2]
     ),
     # Include with decorators
-    url(r'^decorators/inc/', 
-        include("urldecorators.tests.inc_inc_urls"), 
+    url(r'^decorators/inc/',
+        include("urldecorators.tests.inc_inc_urls"),
         decorators=[decorator1, decorator2]
     ),
     # Url with middleware
-    url(r'^middleware/$', 'sample_view', 
+    url(r'^middleware/$', 'sample_view',
         middleware_classes=[Middleware1, Middleware2]
     ),
     # Include with middleware
-    url(r'^middleware/inc/', 
-        include("urldecorators.tests.inc_inc_urls"), 
+    url(r'^middleware/inc/',
+        include("urldecorators.tests.inc_inc_urls"),
         middleware_classes=[Middleware1, Middleware2]
     ),
 )
