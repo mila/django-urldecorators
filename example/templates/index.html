@@ -1,12 +1,29 @@
 <html>
 <head>
-	<title>Home - django-urldecorators example project</title>
+    <title>Home - django-urldecorators example project</title>
 </head>
 <body>
-	<h1>django-urldecorators example project</h1>
-	<ul>
-		<li><a href="{% url articles %}">Cached page</a></li>
-		<li><a href="{% url private %}">Private page</a></li>
-	</ul>
+    <h1>Example project</h1>
+
+    <p>This project shows example configuration for <em>django-urldecorators</em> application.</p>
+    <p>The following links point to pages with different decorators/middleware classes applied:</p>
+    <ul>
+        <li><a href="{% url articles %}">Cached page</a></li>
+        <li><a href="{% url private %}">Private page</a></li>
+    </ul>
+
+    <h2>Example configuration</h2>
+
+<pre>
+from urldecorators.defaults import *
+
+urlpatterns = patterns('',
+    url(r'^private/$', include('example.private.urls'),
+        decorators=['django.contrib.auth.decorators.login_required']),
+    url(r'^cached/$', include('example.cached.urls'),
+        middleware_classes=['django.middleware.cache.CacheMiddleware']),
+)
+</pre>
+
 </body>
 </html>

@@ -1,7 +1,8 @@
 
 import os
 
-DEBUG = True
+
+DEBUG = False
 
 # Django 1.1 and 1.0
 DATABASE_ENGINE = 'django.db.backends.sqlite3'
@@ -18,8 +19,10 @@ DATABASES = {
 ROOT_URLCONF = 'example.urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates'),
+    os.path.abspath('%s/../templates/' % __file__),
 )
+
+SITE_ID = 1
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -30,7 +33,3 @@ INSTALLED_APPS = (
 
     'urldecorators',               # Optional, only for Django test runner
 )
-
-SITE_ID = 1
-
-LOGIN_URL = '/login/'

@@ -1,2 +1,3 @@
 
-import example.legacy
+from example import legacy
+legacy.fix()

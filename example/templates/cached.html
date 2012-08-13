@@ -1,20 +1,25 @@
 <html>
 <head>
-	<title>Cached page - django-urldecorators example project</title>
+    <title>Cached page - django-urldecorators example project</title>
 </head>
 <body>
-	<h1>Cached page</h1>
-	<p>Time: <b>{% now "jS F Y H:i:s" %}</b></p>
-	<p>Middleware `django.middleware.cache.CacheMiddleware` is applied.</p>
-	<pre>
+    <h1>Cached page</h1>
+    <p>Time: <b>{% now "jS F Y H:i:s" %}</b></p>
+    <p>Middleware `django.middleware.cache.CacheMiddleware` is applied.</p>
+
+    <h2>Example configuration</h2>
+
+<pre>
 from urldecorators.defaults import *
 
 urlpatterns = patterns('',
-    ...
+    # ...
     url(r'^cached/$', include('example.cached.urls'),
         middleware_classes=['django.middleware.cache.CacheMiddleware']),
+    # ...
 )
-	</pre>
-	<p><a href="{% url home %}">Home</a></p>
+</pre>
+
+    <p><a href="{% url home %}">Home</a></p>
 </body>
 </html>

@@ -19,7 +19,9 @@ DATABASES = {
     }
 }
 
+# Must be configured even thought it is not actually needed
 ROOT_URLCONF = None
+
 
 INSTALLED_APPS = (
     'urldecorators',

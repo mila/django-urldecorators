@@ -1,4 +1,6 @@
+
 from urldecorators.defaults import *
+
 
 urlpatterns = patterns('',
     url(r'^private/$', include('example.private.urls'),
@@ -7,9 +9,10 @@ urlpatterns = patterns('',
         middleware_classes=['django.middleware.cache.CacheMiddleware']),
 )
 
+# Nothing special about following urlpatterns.
 urlpatterns += patterns('',
     url("^$", 'django.views.generic.simple.direct_to_template',
             {'template': 'index.html'}, name="home"),
-    url(r'^login/$', 'django.contrib.auth.views.login', name="login"),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', name="logout"),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', name="login"),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name="logout"),
 )
