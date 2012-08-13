@@ -10,7 +10,7 @@ VERSION_STR = ".".join(map(str, VERSION))
 url='http://github.com/mila/django-urldecorators/tree/master'
 
 try:
-    long_description = codecs.open('README', "r", "utf-8").read()
+    long_description = codecs.open('README.rst', "r", "utf-8").read()
 except IOError:
     long_description = "See %s" % url
 
