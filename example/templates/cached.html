@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Cached page - django-urldecorators testproject</title>
+	<title>Cached page - django-urldecorators example project</title>
 </head>
 <body>
 	<h1>Cached page</h1>
@@ -8,10 +8,10 @@
 	<p>Middleware `django.middleware.cache.CacheMiddleware` is applied.</p>
 	<pre>
 from urldecorators.defaults import *
-		
+
 urlpatterns = patterns('',
     ...
-    url(r'^cached/$', include('testproject.cached.urls'),
+    url(r'^cached/$', include('example.cached.urls'),
         middleware_classes=['django.middleware.cache.CacheMiddleware']),
 )
 	</pre>

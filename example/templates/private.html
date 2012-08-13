@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Private page - django-urldecorators testproject</title>
+	<title>Private page - django-urldecorators example project</title>
 </head>
 <body>
 	<h1>Private page</h1>
@@ -8,9 +8,9 @@
 	<p>Decorator `django.contrib.auth.decorators.login_required` is applied.</p>
 	<pre>
 from urldecorators.defaults import *
-		
+
 urlpatterns = patterns('',
-    url(r'^private/$', include('testproject.private.urls'), 
+    url(r'^private/$', include('example.private.urls'),
         decorators=['django.contrib.auth.decorators.login_required']),
     ...
 )

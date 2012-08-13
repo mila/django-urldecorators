@@ -1,6 +1,6 @@
 *.pyc
 *.pyo
 *.egg-info
-build
-dist
-test/testproject/test.db
+/build
+/dist
+/example.db

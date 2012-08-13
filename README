@@ -1,5 +1,5 @@
 Django-urldecorators is a reusable Django application which allows apply
-view decorators and middleware components depending on requested url.
+view decorators and middleware components based on requested url.
 
 
 Installation and usage:
@@ -28,8 +28,16 @@ Example urls.py file:
 
 Testing:
 
-    # Go to the src directory
-    cd src
-    # Run tests (Django must be installed)
-    django-admin.py test --settings=urldecorators.tests.settings --pythonpath=`pwd`
+    All the tests can be simply run using `django-admin.py` utility from the
+    repository root directory:
 
+    $ django-admin.py test --settings=urldecorators.tests.settings --pythonpath=`pwd`
+
+
+Example project:
+
+    For the example configuration and usage see the example project included
+    in the repository. It can also be run using `django-admin.py` utility.
+
+    $ django-admin.py syncdb --settings=example.settings --pythonpath=`pwd`
+    $ django-admin.py runserver --settings=example.settings --pythonpath=`pwd`
