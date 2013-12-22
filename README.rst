@@ -34,8 +34,8 @@ For the example configuration and usage see the example project included
 in the repository. It can be run using `django-admin.py` utility from the
 repository root: ::
 
-    $ django-admin.py syncdb --settings=example.settings --pythonpath=`pwd`
-    $ django-admin.py runserver --settings=example.settings --pythonpath=`pwd`
+    $ django-admin.py syncdb --settings=example.settings --pythonpath=$PWD
+    $ django-admin.py runserver --settings=example.settings --pythonpath=$PWD
 
 
 Testing
@@ -43,4 +43,4 @@ Testing
 
 Application tests can be simply run using `django-admin.py` utility: ::
 
-    $ django-admin.py test --settings=urldecorators.tests.settings --pythonpath=`pwd`
+    $ django-admin.py test --settings=urldecorators.tests.settings --pythonpath=$PWD
