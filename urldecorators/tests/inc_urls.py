@@ -1,7 +1,6 @@
 
-from urldecorators.defaults import * # Legacy import location
+from urldecorators import patterns, url, include
 from urldecorators.tests.urls import decorator1, decorator2, Middleware1, Middleware2
-
 from urldecorators.tests import views
 
 

@@ -1,16 +1,17 @@
+{% load url from future %}
 <html>
 <head>
     <title>Private page - django-urldecorators example project</title>
 </head>
 <body>
     <h1>Private page</h1>
-    <p>You are logged in if you see this page. <a href="{% url logout %}">Logout</a></p>
+    <p>You are logged in if you see this page. <a href="{% url 'logout' %}">Logout</a></p>
     <p>Decorator `django.contrib.auth.decorators.login_required` is applied.</p>
 
     <h2>Example configuration</h2>
 
 <pre>
-from urldecorators import *
+from urldecorators import patterns, url, include
 
 urlpatterns = patterns('',
     # ...
@@ -20,6 +21,6 @@ urlpatterns = patterns('',
 )
 </pre>
 
-    <p><a href="{% url home %}">Home</a></p>
+    <p><a href="{% url 'home' %}">Home</a></p>
 </body>
 </html>

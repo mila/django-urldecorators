@@ -1,5 +1,6 @@
 
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url
+
 
 urlpatterns = patterns('urldecorators.tests.views',
     url(r'^$', 'sample_view'),

@@ -1,26 +1,15 @@
 
 from django.conf import urls
-if not hasattr(urls, 'include'):
-    # Fallback for Django 1.3 and older
-    from django.conf.urls import defaults as urls
+from django.core.exceptions import ImproperlyConfigured
 
 from urldecorators.urlresolvers import RegexURLPattern, RegexURLResolver
 from urldecorators.helpers import get_decorator_tuple
 
 
-__all__ = ['handler404', 'handler500', 'include', 'patterns', 'url']
+__all__ = ['include', 'patterns', 'url']
 
-handler404 = urls.handler404
-handler500 = urls.handler500
 include = urls.include
 patterns = urls.patterns
-# handler403 is new in Django 1.4
-try:
-    handler403 = urls.handler403
-except AttributeError:
-    pass
-else:
-    __all__ = ['handler403'] + __all__
 
 
 def url(regex, view, kwargs=None, name=None, prefix='', decorators=None,
@@ -35,7 +24,7 @@ def url(regex, view, kwargs=None, name=None, prefix='', decorators=None,
 
     Example urls.py file:
 
-        from urldecorators import *
+        from urldecorators import patterns, url, include
 
         urlpatterns = patterns('',
             url(r'^private/$', include('example.private.urls'),
@@ -64,7 +53,6 @@ def _url(regex, view, kwargs=None, name=None, prefix='', decorators=None,
     else:
         if isinstance(view, basestring):
             if not view:
-                from django.core.exceptions import ImproperlyConfigured
                 raise ImproperlyConfigured('Empty URL pattern view name not permitted (for pattern %r)' % regex)
             if prefix:
                 view = prefix + '.' + view

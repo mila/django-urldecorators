@@ -7,15 +7,11 @@ Allows to run test suite without any project configured:
 
 """
 
-# Django 1.1 and 1.0
-DATABASE_ENGINE = 'django.db.backends.sqlite3'
-DATABASE_NAME = ':memory:'
 
-# Django 1.2 up
 DATABASES = {
     'default': {
-        'ENGINE': DATABASE_ENGINE,
-        'NAME': DATABASE_NAME
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:'
     }
 }
 
@@ -26,3 +22,5 @@ ROOT_URLCONF = None
 INSTALLED_APPS = (
     'urldecorators',
 )
+
+SECRET_KEY = 'The SECRET_KEY setting must not be empty.'

@@ -1,7 +1,8 @@
 
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
+from django.views.generic import TemplateView
+
 
 urlpatterns = patterns('',
-    url('^$', 'django.views.generic.simple.direct_to_template',
-            {'template': 'cached.html'}, name='articles'),
+    url('^$', TemplateView.as_view(template_name='cached.html'), name='articles'),
 )

@@ -1,3 +1,4 @@
+{% load url from future %}
 <html>
 <head>
     <title>Home - django-urldecorators example project</title>
@@ -8,14 +9,14 @@
     <p>This project shows example configuration for <em>django-urldecorators</em> application.</p>
     <p>The following links point to pages with different decorators/middleware classes applied:</p>
     <ul>
-        <li><a href="{% url articles %}">Cached page</a></li>
-        <li><a href="{% url private %}">Private page</a></li>
+        <li><a href="{% url 'articles' %}">Cached page</a></li>
+        <li><a href="{% url 'private' %}">Private page</a></li>
     </ul>
 
     <h2>Example configuration</h2>
 
 <pre>
-from urldecorators import *
+from urldecorators import patterns, url, include
 
 urlpatterns = patterns('',
     url(r'^private/$', include('example.private.urls'),

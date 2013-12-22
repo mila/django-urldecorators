@@ -1,8 +1,8 @@
 
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
+from django.views.generic import TemplateView
+
 
 urlpatterns = patterns('',
-    url('^$', 'django.views.generic.simple.direct_to_template',
-            {'template': 'private.html'}, name='private'),
+    url('^$', TemplateView.as_view(template_name='private.html'), name='private'),
 )
-

@@ -2,17 +2,13 @@
 import os
 
 
-DEBUG = False
+DEBUG = True
 
-# Django 1.1 and 1.0
-DATABASE_ENGINE = 'django.db.backends.sqlite3'
-DATABASE_NAME = os.path.abspath('%s/../../example.db' % __file__)
 
-# Django 1.2 up
 DATABASES = {
     'default': {
-        'ENGINE': DATABASE_ENGINE,
-        'NAME': DATABASE_NAME
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.abspath('%s/../../example.db' % __file__),
     }
 }
 
@@ -33,3 +29,5 @@ INSTALLED_APPS = (
 
     'urldecorators',               # Optional, only for Django test runner
 )
+
+SECRET_KEY = 'The SECRET_KEY setting must not be empty.'

@@ -1,11 +1,12 @@
 
 from django.http import HttpResponse
+from django.views.generic.base import View
 
 
 def sample_view(request, *args, **kwargs):
     response = HttpResponse("ok")
-    response.args = args 
-    response.kwargs = kwargs 
+    response.args = args
+    response.kwargs = kwargs
     return response
 
 
@@ -21,13 +22,7 @@ class MethodView(object):
 method_view = MethodView().method
 
 
-# Django 1.3 class based views
-try:
-    from django.views.generic.base import View
-except ImportError:
-    generic_view = None
-else:
-    class GenericView(View):
-        def get(self, request, *args, **kwargs):
-            return sample_view(request, *args, **kwargs)
-    generic_view = GenericView.as_view()
+class GenericView(View):
+    def get(self, request, *args, **kwargs):
+        return sample_view(request, *args, **kwargs)
+generic_view = GenericView.as_view()

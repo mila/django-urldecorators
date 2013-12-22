@@ -1,13 +1,15 @@
 Django-urldecorators is a reusable Django application which allows apply
-view decorators and middleware components based on requested URL.
+view decorators and middleware components based on a requested URL.
 
-The application is compatible with Django versions from 1.0 to 1.4.
+This library is compatible with Django 1.4 and later. If you need to use
+older Django versions (which receive no security updates or bugfixes) you
+can install 0.4 version of django-urldecorators.
 
 
 Installation and usage
 ======================
 
-1) Run `python setup.py install` or add `urldecorators` directory to
+1) Run `python setup.py install` or add the `urldecorators` module to
    your `PYTHONPATH` (or use pip or easy_install).
 
 2) In `urls.py` file replace `from django.conf.urls import *`
@@ -18,7 +20,7 @@ Installation and usage
 
 Example urls.py file: ::
 
-    from urldecorators import *
+    from urldecorators import patterns, url, include
 
     urlpatterns = patterns('',
         url(r'^private/$', include('example.private.urls'),
@@ -42,6 +44,3 @@ Testing
 Application tests can be simply run using `django-admin.py` utility: ::
 
     $ django-admin.py test --settings=urldecorators.tests.settings --pythonpath=`pwd`
-
-Alternatively you can include `urldecorators` in `INSTALLED_APPS` so that all
-the tests will be run automatically with your project test suite.

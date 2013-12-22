@@ -1,7 +1,10 @@
 
-from django.utils.functional import update_wrapper
+try:
+    from functools import update_wrapper
+except ImportError:
+    from django.utils.functional import update_wrapper
 
-from urldecorators import *
+from urldecorators import patterns, url, include
 
 
 def decorator1(func):
@@ -119,43 +122,33 @@ urlpatterns += patterns('urldecorators.tests.views',
     ),
 )
 
-# Include iterable in urlpatterns: http://code.djangoproject.com/changeset/9728
-try:
-    url('', include([])).url_patterns
-except TypeError:
-    attr_urls = None
-else:
-    attr_urls = patterns('urldecorators.tests.views',
-        url(r'^$', 'sample_view'),
-        url(r'^decorators/$', 'sample_view',
-            decorators=[decorator1, decorator2]),
-        url(r'^middleware/$', 'sample_view',
-            middleware_classes=[Middleware1, Middleware2]),
-    )
-    urlpatterns += patterns('urldecorators.tests.views',
-        # Test urls as property instead of a module
-        url(r'^attr/inc/', include(attr_urls)),
-        url(r'^attr/decorators/', include(attr_urls),
-            decorators=[decorator1, decorator2]
-        ),
-        url(r'^attr/middleware/', include(attr_urls),
-            middleware_classes=[Middleware1, Middleware2]
-        ),
-    )
+# Include iterable in urlpatterns.
+attr_urls = patterns('urldecorators.tests.views',
+    url(r'^$', 'sample_view'),
+    url(r'^decorators/$', 'sample_view',
+        decorators=[decorator1, decorator2]),
+    url(r'^middleware/$', 'sample_view',
+        middleware_classes=[Middleware1, Middleware2]),
+)
+urlpatterns += patterns('urldecorators.tests.views',
+    # Test urls as property instead of a module
+    url(r'^attr/inc/', include(attr_urls)),
+    url(r'^attr/decorators/', include(attr_urls),
+        decorators=[decorator1, decorator2]
+    ),
+    url(r'^attr/middleware/', include(attr_urls),
+        middleware_classes=[Middleware1, Middleware2]
+    ),
+)
 
-# Namespaced urls: http://code.djangoproject.com/changeset/11250
-try:
-    namespaced_urls = patterns('urldecorators.tests.views',
-        url(r'^namespace/decorators/',
-            include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'),
-            decorators=[decorator1, decorator2]
-        ),
-        url(r'^namespace/middleware/',
-            include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'),
-            middleware_classes=[Middleware1, Middleware2]
-        ),
-    )
-except TypeError:
-    namespaced_urls = None
-else:
-    urlpatterns += namespaced_urls
+# Namespaced urls.
+urlpatterns += patterns('urldecorators.tests.views',
+    url(r'^namespace/decorators/',
+        include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'),
+        decorators=[decorator1, decorator2]
+    ),
+    url(r'^namespace/middleware/',
+        include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'),
+        middleware_classes=[Middleware1, Middleware2]
+    ),
+)

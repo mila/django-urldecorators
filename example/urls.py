@@ -1,5 +1,6 @@
 
-from urldecorators import *
+from urldecorators import patterns, url, include
+from django.views.generic import TemplateView
 
 
 urlpatterns = patterns('',
@@ -11,8 +12,7 @@ urlpatterns = patterns('',
 
 # Nothing special about following urlpatterns.
 urlpatterns += patterns('',
-    url("^$", 'django.views.generic.simple.direct_to_template',
-            {'template': 'index.html'}, name="home"),
+    url('^$', TemplateView.as_view(template_name='index.html'), name='home'),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name="login"),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name="logout"),
 )
