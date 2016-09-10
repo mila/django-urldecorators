@@ -5,11 +5,13 @@ from django.core.exceptions import ImproperlyConfigured
 from urldecorators.urlresolvers import RegexURLPattern, RegexURLResolver
 from urldecorators.helpers import get_decorator_tuple
 
-
-__all__ = ['include', 'patterns', 'url']
+try:
+    __all__ = ['include', 'patterns', 'url']
+    patterns = urls.patterns
+except AttributeError:
+    __all__ = ['include', 'url']
 
 include = urls.include
-patterns = urls.patterns
 
 
 def url(regex, view, kwargs=None, name=None, prefix='', decorators=None,
@@ -24,18 +26,21 @@ def url(regex, view, kwargs=None, name=None, prefix='', decorators=None,
 
     Example urls.py file:
 
-        from urldecorators import patterns, url, include
+        from urldecorators import url, include
 
-        urlpatterns = patterns('',
+        urlpatterns = [
             url(r'^private/$', include('example.private.urls'),
                 decorators=['django.contrib.auth.decorators.login_required']),
             url(r'^articles/$', include('example.articles.urls'),
                 middleware_classes=['django.middleware.cache.CacheMiddleware']),
-        )
+        ]
 
     """
     if not (decorators or middleware_classes):
-        return urls.url(regex, view, kwargs, name, prefix)
+        try:
+            return urls.url(regex, view, kwargs, name, prefix)
+        except TypeError: # Django>=1.10
+            return urls.url(regex, view, kwargs, name)
     r = _url(regex, view, kwargs, name, prefix)
     r.decorators = get_decorator_tuple(decorators, middleware_classes)
     return r
