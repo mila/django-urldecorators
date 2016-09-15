@@ -41,6 +41,6 @@ repository root: ::
 Testing
 =======
 
-Application tests can be simply run using `django-admin.py` utility: ::
+Application tests can run using `tox`: ::
 
-    $ django-admin.py test --settings=urldecorators.tests.settings --pythonpath=$PWD
+    $ tox
