@@ -1,6 +1,7 @@
 
 from django.conf import urls
 from django.core.exceptions import ImproperlyConfigured
+from django.utils import six
 
 from urldecorators.urlresolvers import RegexURLPattern, RegexURLResolver
 from urldecorators.helpers import get_decorator_tuple
@@ -56,7 +57,7 @@ def _url(regex, view, kwargs=None, name=None, prefix='', decorators=None,
         # For include(...) processing.
         return resolver(regex, view[0], kwargs, *view[1:])
     else:
-        if isinstance(view, basestring):
+        if isinstance(view, six.string_types):
             if not view:
                 raise ImproperlyConfigured('Empty URL pattern view name not permitted (for pattern %r)' % regex)
             if prefix:
