@@ -1,7 +1,6 @@
 
 import codecs
-from setuptools import setup, find_packages
-
+from setuptools import setup
 
 
 url='http://github.com/mila/django-urldecorators/tree/master'
@@ -14,7 +13,7 @@ except IOError:
 
 setup(
     name='django-urldecorators',
-    version='0.6.dev',
+    version='0.6',
     description='Django-urldecorators is a reusable Django application which allows apply '
                 'view decorators and middleware components depending on requested url.',
     author='Miloslav Pojman',
