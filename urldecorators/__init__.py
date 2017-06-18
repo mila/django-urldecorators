@@ -6,11 +6,8 @@ from django.utils import six
 from urldecorators.urlresolvers import RegexURLPattern, RegexURLResolver
 from urldecorators.helpers import get_decorator_tuple
 
-try:
-    __all__ = ['include', 'patterns', 'url']
-    patterns = urls.patterns
-except AttributeError:
-    __all__ = ['include', 'url']
+
+__all__ = ['include', 'url']
 
 include = urls.include
 
@@ -39,9 +36,9 @@ def url(regex, view, kwargs=None, name=None, prefix='', decorators=None,
     """
     if not (decorators or middleware_classes):
         try:
-            return urls.url(regex, view, kwargs, name, prefix)
-        except TypeError: # Django>=1.10
             return urls.url(regex, view, kwargs, name)
+        except TypeError:  # Django<1.10
+            return urls.url(regex, view, kwargs, name, prefix)
     r = _url(regex, view, kwargs, name, prefix)
     r.decorators = get_decorator_tuple(decorators, middleware_classes)
     return r

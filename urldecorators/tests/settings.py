@@ -15,8 +15,7 @@ DATABASES = {
     }
 }
 
-# Must be configured even thought it is not actually needed
-ROOT_URLCONF = None
+ROOT_URLCONF = 'urldecorators.tests.urls'
 
 
 INSTALLED_APPS = (
@@ -24,3 +23,6 @@ INSTALLED_APPS = (
 )
 
 SECRET_KEY = 'The SECRET_KEY setting must not be empty.'
+
+# Prevents warning in Django 1.7
+MIDDLEWARE_CLASSES = []

@@ -3,10 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.utils.decorators import decorator_from_middleware
 from django.utils import six
 
-try:
-    from functools import update_wrapper, WRAPPER_ASSIGNMENTS
-except ImportError:
-    from django.utils.functional import update_wrapper, WRAPPER_ASSIGNMENTS
+from functools import update_wrapper, WRAPPER_ASSIGNMENTS
 
 
 def import_if_string(path):

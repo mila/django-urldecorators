@@ -20,12 +20,7 @@ class DecoratorMixin(object):
         match = super(DecoratorMixin, self).resolve(path)
         if not match:
             return match
-        try:
-            # In Django 1.3 match is an instance of ResolverMatch class
-            match.func = self.apply_decorators(match.func)
-        except AttributeError:
-            # Before Django 1.3 match was a tuple 
-            match = self.apply_decorators(match[0]), match[1], match[2]
+        match.func = self.apply_decorators(match.func)
         return match
     
     def apply_decorators(self, callback):
