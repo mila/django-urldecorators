@@ -13,7 +13,7 @@ except IOError:
 
 setup(
     name='django-urldecorators',
-    version='0.6',
+    version='0.7.dev',
     description='Django-urldecorators is a reusable Django application which allows apply '
                 'view decorators and middleware components depending on requested url.',
     author='Miloslav Pojman',
