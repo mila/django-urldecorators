@@ -145,11 +145,11 @@ urlpatterns += [
 # Namespaced urls.
 urlpatterns += [
     url(r'^namespace/decorators/',
-        include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'),
+        include("urldecorators.tests.inc_urls", namespace='ns1', app_name='ns1'),
         decorators=[decorator1, decorator2]
     ),
     url(r'^namespace/middleware/',
-        include("urldecorators.tests.inc_urls", namespace='foo', app_name='bar'),
+        include("urldecorators.tests.inc_urls", namespace='ns2', app_name='ns2'),
         middleware_classes=[Middleware1, Middleware2]
     ),
 ]

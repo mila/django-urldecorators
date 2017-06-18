@@ -47,6 +47,7 @@ it does not support `patterns function
 <https://docs.djangoproject.com/en/1.11/releases/1.8/#django-conf-urls-patterns>`_
 from ancient Django versions.
 
+Both Python 2 and Python 3 are supported.
 
 Testing
 =======
