@@ -20,7 +20,7 @@ setup(
     author='Miloslav Pojman',
     author_email='miloslav.pojman@gmail.com',
     url=url,
-    packages=find_packages(),
+    packages=['urldecorators', 'urldecorators.tests'],
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
