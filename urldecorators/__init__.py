@@ -1,15 +1,15 @@
 
 from django.conf import urls
 from django.core.exceptions import ImproperlyConfigured
+from django.utils import six
 
 from urldecorators.urlresolvers import RegexURLPattern, RegexURLResolver
 from urldecorators.helpers import get_decorator_tuple
 
 
-__all__ = ['include', 'patterns', 'url']
+__all__ = ['include', 'url']
 
 include = urls.include
-patterns = urls.patterns
 
 
 def url(regex, view, kwargs=None, name=None, prefix='', decorators=None,
@@ -24,18 +24,21 @@ def url(regex, view, kwargs=None, name=None, prefix='', decorators=None,
 
     Example urls.py file:
 
-        from urldecorators import patterns, url, include
+        from urldecorators import url, include
 
-        urlpatterns = patterns('',
+        urlpatterns = [
             url(r'^private/$', include('example.private.urls'),
                 decorators=['django.contrib.auth.decorators.login_required']),
             url(r'^articles/$', include('example.articles.urls'),
                 middleware_classes=['django.middleware.cache.CacheMiddleware']),
-        )
+        ]
 
     """
     if not (decorators or middleware_classes):
-        return urls.url(regex, view, kwargs, name, prefix)
+        try:
+            return urls.url(regex, view, kwargs, name)
+        except TypeError:  # Django<1.10
+            return urls.url(regex, view, kwargs, name, prefix)
     r = _url(regex, view, kwargs, name, prefix)
     r.decorators = get_decorator_tuple(decorators, middleware_classes)
     return r
@@ -51,7 +54,7 @@ def _url(regex, view, kwargs=None, name=None, prefix='', decorators=None,
         # For include(...) processing.
         return resolver(regex, view[0], kwargs, *view[1:])
     else:
-        if isinstance(view, basestring):
+        if isinstance(view, six.string_types):
             if not view:
                 raise ImproperlyConfigured('Empty URL pattern view name not permitted (for pattern %r)' % regex)
             if prefix:

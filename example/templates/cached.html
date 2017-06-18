@@ -1,4 +1,3 @@
-{% load url from future %}
 <html>
 <head>
     <title>Cached page - django-urldecorators example project</title>
@@ -11,14 +10,14 @@
     <h2>Example configuration</h2>
 
 <pre>
-from urldecorators import patterns, url, include
+from urldecorators import url, include
 
-urlpatterns = patterns('',
+urlpatterns = [
     # ...
-    url(r'^cached/$', include('example.cached.urls'),
+    url(r'^cached/', include('example.cached.urls'),
         middleware_classes=['django.middleware.cache.CacheMiddleware']),
     # ...
-)
+]
 </pre>
 
     <p><a href="{% url 'home' %}">Home</a></p>

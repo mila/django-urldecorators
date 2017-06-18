@@ -1,15 +1,13 @@
 
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.decorators import decorator_from_middleware
+from django.utils import six
 
-try:
-    from functools import update_wrapper, WRAPPER_ASSIGNMENTS
-except ImportError:
-    from django.utils.functional import update_wrapper, WRAPPER_ASSIGNMENTS
+from functools import update_wrapper, WRAPPER_ASSIGNMENTS
 
 
 def import_if_string(path):
-    if not isinstance(path, basestring):
+    if not isinstance(path, six.string_types):
         return path
     try:
         dot = path.rindex('.')
@@ -18,7 +16,7 @@ def import_if_string(path):
     mod_name, obj_name = path[:dot], path[dot+1:]
     try:
         mod = __import__(mod_name, {}, {}, [''])
-    except ImportError, e:
+    except ImportError as e:
         raise ImproperlyConfigured('Error importing module %s: "%s"'
                                     % (mod_name, e))
     try:

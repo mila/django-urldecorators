@@ -2,15 +2,14 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 
-from urldecorators import patterns, url
+from urldecorators import url
+from urldecorators.tests import views
 
 
 __all__ = ["ResolverTestCase", "ConfigurationTestCase", "ViewTypesTestCase"]
 
 
 class ResolverTestCase(TestCase):
-
-    urls = "urldecorators.tests.urls"
 
     def test_view_is_resolved(self):
         r = self.client.get("/")
@@ -220,6 +219,7 @@ class ResolverTestCase(TestCase):
         self.assertEqual((r.args, r.kwargs), (
             ("decorator 1 applied", "decorator 2 applied"), {}
         ))
+
     def test_middleware_works_with_namespaced_urls(self):
         r = self.client.get("/namespace/middleware/")
         self.assertEqual((r.args, r.kwargs), (
@@ -228,8 +228,6 @@ class ResolverTestCase(TestCase):
 
 
 class ConfigurationTestCase(TestCase):
-
-    urls = "urldecorators.tests.urls"
 
     def test_decorators_can_be_declared_as_string(self):
         r = self.client.get("/string/decorators/")
@@ -245,23 +243,23 @@ class ConfigurationTestCase(TestCase):
 
     def test_empty_string_as_view_name_raises(self):
         def func():
-            urlpatterns = patterns('',
+            urlpatterns = [
                 url(r'^$', '', decorators=["urldecorators.tests.urls.decorator1"]),
-            )
+            ]
         self.assertRaises(ImproperlyConfigured, func)
 
     def test_unresolvable_decorator_name_raises(self):
         def func():
-            urlpatterns = patterns('urldecorators.tests.views',
-                url(r'^$', 'sample_view', decorators=["does.not.exist"]),
-            )
+            urlpatterns = [
+                url(r'^$', views.sample_view, decorators=["does.not.exist"]),
+            ]
         self.assertRaises(ImproperlyConfigured, func)
 
     def test_unresolvable_middleware_name_raises(self):
         def func():
-            urlpatterns = patterns('urldecorators.tests.views',
-                url(r'^$', 'sample_view', middleware_classes=["does.not.exist"]),
-            )
+            urlpatterns = [
+                url(r'^$', views.sample_view, middleware_classes=["does.not.exist"]),
+            ]
         self.assertRaises(ImproperlyConfigured, func)
 
     def test_decorators_can_be_used_in_iterable_urlpatterns(self):
@@ -290,8 +288,6 @@ class ConfigurationTestCase(TestCase):
 
 
 class ViewTypesTestCase(TestCase):
-
-    urls = "urldecorators.tests.urls"
 
     def test_decorators_work_with_func_view(self):
         r = self.client.get("/decorators/inc/func/")
@@ -329,42 +325,6 @@ class ViewTypesTestCase(TestCase):
             ("middleware 1 applied", "middleware 2 applied"), {}
         ))
 
-    def test_decorators_work_with_func_view_declared_as_str(self):
-        r = self.client.get("/decorators/inc/func-str/")
-        self.assertEqual((r.args, r.kwargs), (
-            ("decorator 1 applied", "decorator 2 applied"), {}
-        ))
-
-    def test_middleware_works_with_func_view_declared_as_str(self):
-        r = self.client.get("/middleware/inc/func-str/")
-        self.assertEqual((r.args, r.kwargs), (
-            ("middleware 1 applied", "middleware 2 applied"), {}
-        ))
-
-    def test_class_view_declared_as_str_work_with_decorator_declared_as_str(self):
-        r = self.client.get("/decorators/inc/class-str/")
-        self.assertEqual((r.args, r.kwargs), (
-            ("decorator 1 applied", "decorator 2 applied"), {}
-        ))
-
-    def test_middleware_works_with_class_view_declared_as_str(self):
-        r = self.client.get("/middleware/inc/class-str/")
-        self.assertEqual((r.args, r.kwargs), (
-            ("middleware 1 applied", "middleware 2 applied"), {}
-        ))
-
-    def test_decorators_work_with_method_view_declared_as_str(self):
-        r = self.client.get("/decorators/inc/method-str/")
-        self.assertEqual((r.args, r.kwargs), (
-            ("decorator 1 applied", "decorator 2 applied"), {}
-        ))
-
-    def test_middleware_works_with_method_view_declared_as_str(self):
-        r = self.client.get("/middleware/inc/method-str/")
-        self.assertEqual((r.args, r.kwargs), (
-            ("middleware 1 applied", "middleware 2 applied"), {}
-        ))
-
     def test_decorators_work_with_generic_view(self):
         r = self.client.get("/decorators/inc/generic/")
         self.assertEqual((r.args, r.kwargs),(
@@ -373,18 +333,6 @@ class ViewTypesTestCase(TestCase):
 
     def test_middleware_works_with_generic_view(self):
         r = self.client.get("/middleware/inc/generic/")
-        self.assertEqual((r.args, r.kwargs), (
-            ("middleware 1 applied", "middleware 2 applied"), {}
-        ))
-
-    def test_decorators_work_with_generic_view_declared_as_str(self):
-        r = self.client.get("/decorators/inc/generic-str/")
-        self.assertEqual((r.args, r.kwargs),(
-            ("decorator 1 applied", "decorator 2 applied"), {}
-        ))
-
-    def test_middleware_works_with_generic_view_declared_as_str(self):
-        r = self.client.get("/middleware/inc/generic-str/")
         self.assertEqual((r.args, r.kwargs), (
             ("middleware 1 applied", "middleware 2 applied"), {}
         ))
